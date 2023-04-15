@@ -3,41 +3,40 @@
 
 <h1>Catálogo</h1>
 
-<RadzenTemplateForm Data="@produto" TItem="Produto" Submit="@Confirma">
-    <RadzenStack Orientation="Orientation.Vertical">
-        <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
-            Nome:
-            <RadzenTextBox @bind-Value="produto.Nome" MaxLength="255" Name="NomeProduto" />
-            <RadzenRequiredValidator Style="display:block" Component="NomeProduto" Text="Nome é requerido" />
-        </RadzenStack>
-
-        <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
-            Preço:
-            <RadzenNumeric @bind-Value="produto.Preco" TValue="double" Format="c" />
-        </RadzenStack>
-
-        <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
-            Categoria:
-            <RadzenTextBox @bind-Value="produto.Categoria" MaxLength="255" Name="CategoriaProduto" />
-            <RadzenRequiredValidator Style="display:block" Component="CategoriaProduto" Text="Categoria é requerida" />
-        </RadzenStack>
-
-        <RadzenStack Style="mt-4" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="4px">
-            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Salvar" />
-        </RadzenStack>
+<RadzenStack Orientation="Orientation.Vertical">
+    <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
+        Nome:
+        <RadzenTextBox @bind-Value="produto.Nome" MaxLength="255" Name="NomeProduto" />
     </RadzenStack>
-</RadzenTemplateForm>
+
+    <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
+        Preço:
+        <RadzenNumeric @bind-Value="produto.Preco" />
+    </RadzenStack>
+
+    <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
+        Categoria:
+        <RadzenTextBox @bind-Value="produto.Categoria" MaxLength="255" Name="CategoriaProduto" />
+    </RadzenStack>
+
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="4px">
+        <RadzenButton Click="@Confirma" Text="Salvar" Icon="save" ButtonStyle="ButtonStyle.Primary" />
+    </RadzenStack>
+</RadzenStack>
+
+<h1>Produtos cadastrados:</h1>
+
+@foreach(var produto in DbContext.Produtos.ToList())
+{
+    <p>@produto.Nome</p>
+}
 
 @code {
-    Produto produto;
-
-    protected override void OnInitialized()
-    {
-        produto = new Produto();
-    }
+    Produto produto = new Produto();
 
     private void Confirma()
     {
-
+        DbContext.Produtos.Add(produto);
+        DbContext.SaveChanges();
     }
 }

@@ -2,9 +2,11 @@ namespace BlazorApp.Data;
 
 public class Produto
 {
-    public string Nome { get; set; }
+    public int Id { get; set; }
 
-    public decimal Preco { get; set; }
+    public string Nome { get; set; } = "";
 
-    public string Categoria { get; set; }
+    public double Preco { get; set; }
+
+    public string Categoria { get; set; } = "";
 }
